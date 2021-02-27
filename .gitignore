@@ -1,6 +1,6 @@
 #PlatformIO
 env
-.pio￼
+.pio/*
 # Prerequisites
 *.d
 
