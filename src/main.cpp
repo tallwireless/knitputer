@@ -3,16 +3,12 @@
 //   --- EPD Display Setup ---
 #define EPD_DC      33  // can be any pin, but required!
 #define EPD_CS      15  // can be any pin, but required!
-#define EPD_BUSY    23  // can set to -1 to not use a pin (will wait a fixed delay)
+#define EPD_BUSY    -1  // can set to -1 to not use a pin (will wait a fixed delay)
 #define SRAM_CS     -1  // can set to -1 to not use a pin (uses a lot of RAM!)
 #define EPD_RESET   -1  // can set to -1 and share with chip Reset (can't deep sleep)
 #define SPI_SCK   5      /* hardware SPI SCK pin      */
 #define SPI_MOSI  18      /* hardware SPI SID/MOSI pin   */
 #define SPI_MISO  19       /* hardware SPI MISO pin   */
-
-#define BUTTON_A 27
-#define BUTTON_B 12a
-#define BUTTON_C 13
 
 ThinkInk_290_Grayscale4_T5 display(EPD_DC, EPD_RESET, EPD_CS, SRAM_CS, EPD_BUSY);
 
@@ -67,6 +63,7 @@ void partialDisplayUpdate(const int x1, const int y1, const int x2, const int y2
     Serial.println("Partially updating the display");
     digitalWrite(statusLED, HIGH);
     display.displayPartial(x1,y1,x2,y2);
+    delay(2000);
     display.clearBuffer();
     digitalWrite(statusLED, LOW);
 }
@@ -76,6 +73,7 @@ void fullDisplayUpdate() {
     digitalWrite(statusLED, HIGH);
     display.display();
     display.clearBuffer();
+    delay(2000);
     digitalWrite(statusLED, LOW);
 }
 
