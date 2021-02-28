@@ -103,7 +103,7 @@ void refreshDisplay() {
 }
 void setup() {
     yellowButton = Button(17); 
-    yellowButton.set_push_callback(incrementCounter);
+    yellowButton.set_release_callback(incrementCounter);
     redButton = Button(21);
     redButton.set_push_callback(resetCounter);
     orangeButton = Button(34);
