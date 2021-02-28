@@ -1,6 +1,7 @@
 #PlatformIO
 env
 .pio/*
+.ccls
 # Prerequisites
 *.d
 
