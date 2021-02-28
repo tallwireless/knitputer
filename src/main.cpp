@@ -1,13 +1,4 @@
-/***************************************************
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit and open-source hardware by purchasing
-  products from Adafruit!
-
-  Written by Limor Fried/Ladyada for Adafruit Industries.
-  MIT license, all text above must be included in any redistribution
- ****************************************************/
-
-#include "Adafruit_ThinkInk.h"
+#include <Adafruit_ThinkInk.h>
 
 //   --- EPD Display Setup ---
 #define EPD_DC      33  // can be any pin, but required!
@@ -159,63 +150,4 @@ void loop() {
     writeCounter("Count:",counter,0,0);
     fullDisplayUpdate();
   }
-  
-// alternate modes!
-//  if (gray) {
-//    display.begin(THINKINK_GRAYSCALE4);
-//    Serial.println("Grayscale!");
-//  } else {
-//    display.begin(THINKINK_MONO);
-//    Serial.println("Monochrome!");
-//  }
-//
-//  display.clearBuffer();
-//  display.setTextSize(3);
-//  display.setTextColor(EPD_BLACK);
-//  display.setCursor(20, 40);
-//  if (gray) {
-//    display.print("Grayscale");
-//  } else {
-//    display.print("Monochrome");
-//  }
-
-
-//  gray = !gray;
-//
-//  display.display();
-//  delay(1000);
-//
-//  display.clearBuffer();
-//  display.fillRect(display.width() / 4, 0, display.width() / 4, display.height(), EPD_LIGHT);
-//  display.fillRect((display.width() * 2) / 4, 0, display.width() / 4, display.height(), EPD_DARK);
-//  display.fillRect((display.width() * 3) / 4, 0, display.width() / 4, display.height(), EPD_BLACK);
-//  display.display();
-//  delay(2000);
-//
-//  Serial.println("Text demo");
-//  // large block of text
-//  display.clearBuffer();
-//  display.setTextSize(1);
-//  testdrawtext("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", COLOR1);
-//  display.display();
-//  delay(2000);
-//
-//  display.clearBuffer();
-//  for (int16_t i = 0; i < display.width(); i += 4) {
-//    display.drawLine(0, 0, i, display.height() - 1, COLOR1);
-//  }
-//
-//  for (int16_t i = 0; i < display.height(); i += 4) {
-//    display.drawLine(display.width() - 1, 0, 0, i, COLOR2); // on grayscale this will be mid-gray
-//  }
-//  display.display();
-//  delay(2000);
-}
-
-
-//void testdrawtext(char *text, uint16_t color) {
-//  display.setCursor(0, 0);
-//  display.setTextColor(color);
-//  display.setTextWrap(true);
-//  display.print(text);
-//}
+} 
