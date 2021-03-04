@@ -14,11 +14,11 @@
 //   --- EPD Display Setup ---
 #define EPD_DC      33  // can be any pin, but required!
 #define EPD_CS      15  // can be any pin, but required!
-#define EPD_BUSY    23  // can set to -1 to not use a pin (will wait a fixed delay)
+#define EPD_BUSY    5  // can set to -1 to not use a pin (will wait a fixed delay)
 #define SRAM_CS     -1  // can set to -1 to not use a pin (uses a lot of RAM!)
 #define EPD_RESET   -1  // can set to -1 and share with chip Reset (can't deep sleep)
-#define SPI_SCK   5      /* hardware SPI SCK pin      */
-#define SPI_MOSI  18      /* hardware SPI SID/MOSI pin   */
+#define SPI_SCK   18      /* hardware SPI SCK pin      */
+#define SPI_MOSI  23      /* hardware SPI SID/MOSI pin   */
 #define SPI_MISO  19       /* hardware SPI MISO pin   */
 
 #define BUTTON_A 27
@@ -40,23 +40,33 @@ bool gray = false;
 
 Counter counter = Counter(0,10,&display);
 
-void setup() {
-    yellowButton = Button(17); 
-    redButton = Button(21);
-    orangeButton = Button(34);
- 
-    yellowButton.set_push_callback(counter.callback_incrementCounter,&counter);
-    redButton.set_push_callback(counter.callback_resetCounter,&counter);
-
+void refresh(void * hold) {
     counter.displayRefresh();
+}
 
+void setup() {
     Serial.begin(115200);
     while (!Serial) {
         delay(10);
     }
+    Serial.println("Setting up the buttons!");
+    yellowButton = Button(16, INPUT_PULLUP); 
+    redButton = Button(25,INPUT_PULLUP);
+    orangeButton = Button(26,INPUT_PULLUP);
+ 
+    Serial.println("Setting up the callbacks!");
+    yellowButton.set_push_callback(counter.callback_incrementCounter,&counter);
+    redButton.set_push_callback(counter.callback_resetCounter,&counter);
+    orangeButton.set_release_callback(refresh);
+
+    Serial.println("Updating the display!");
+    counter.displayRefresh();
+    Serial.println("done with setup!");
+
 }
 
 void loop() {
     yellowButton.updateState();
     redButton.updateState();
+    orangeButton.updateState();
 }
