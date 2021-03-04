@@ -16,7 +16,10 @@
  *  Set the pin value, set the callbacks to NULL, setup the pin
  *
  */
-Button::Button(const int pin){
+Button::Button(const int pin) {
+    Button(pin,INPUT_PULLDOWN);
+}
+Button::Button(const int pin, const int pull_dir){
     
     _push_callback_obj = NULL;
     _push_callback_obj_func = NULL;
@@ -29,7 +32,7 @@ Button::Button(const int pin){
     _pinState = 0;
     _state = false;
 
-    pinMode(_pin, INPUT_PULLDOWN);
+    pinMode(_pin, pull_dir);
 }
 
 

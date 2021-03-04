@@ -25,6 +25,7 @@ private:
 
 public:
   Button(const int);
+  Button(const int, const int);
   void set_push_callback(void (*)(void*));
   void set_push_callback(void (*)(void*),void*);
   void set_release_callback(void (*)(void*));
