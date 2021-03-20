@@ -17,7 +17,7 @@
  *
  */
 Button::Button(const int pin) {
-    Button(pin,INPUT_PULLDOWN);
+    Button(pin,INPUT);
 }
 Button::Button(const int pin, const int pull_dir){
     
@@ -33,6 +33,8 @@ Button::Button(const int pin, const int pull_dir){
     _state = false;
 
     pinMode(_pin, pull_dir);
+    _pinState = digitalRead(_pin);
+    _state = _pinState;
 }
 
 

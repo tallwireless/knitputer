@@ -14,16 +14,12 @@
 //   --- EPD Display Setup ---
 #define EPD_DC      33  // can be any pin, but required!
 #define EPD_CS      15  // can be any pin, but required!
-#define EPD_BUSY    5  // can set to -1 to not use a pin (will wait a fixed delay)
+#define EPD_BUSY    22  // can set to -1 to not use a pin (will wait a fixed delay)
 #define SRAM_CS     -1  // can set to -1 to not use a pin (uses a lot of RAM!)
 #define EPD_RESET   -1  // can set to -1 and share with chip Reset (can't deep sleep)
 #define SPI_SCK   18      /* hardware SPI SCK pin      */
 #define SPI_MOSI  23      /* hardware SPI SID/MOSI pin   */
 #define SPI_MISO  19       /* hardware SPI MISO pin   */
-
-#define BUTTON_A 27
-#define BUTTON_B 12a
-#define BUTTON_C 13
 
 ThinkInk_290_Grayscale4_T5 display(EPD_DC, EPD_RESET, EPD_CS, SRAM_CS, EPD_BUSY);
 
@@ -31,17 +27,18 @@ ThinkInk_290_Grayscale4_T5 display(EPD_DC, EPD_RESET, EPD_CS, SRAM_CS, EPD_BUSY)
 #define COLOR2 EPD_LIGHT
 #define COLOR3 EPD_DARK
 
-Button yellowButton = NULL;
-Button redButton = NULL;
-Button orangeButton = NULL;
-const int statusLED = 14;
+Button* yellowButton = NULL;
+Button* redButton = NULL;
+Button* orangeButton = NULL;
 
-bool gray = false;
+Counter* counter = NULL;
 
-Counter counter = Counter(0,10,&display);
+#define RED_LED 5
+#define BLUE_LED 0
+#define GREEN_LED 17
 
 void refresh(void * hold) {
-    counter.displayRefresh();
+    counter->displayRefresh();
 }
 
 void setup() {
@@ -49,24 +46,35 @@ void setup() {
     while (!Serial) {
         delay(10);
     }
+    counter = new Counter(0,0,&display);
+
     Serial.println("Setting up the buttons!");
-    yellowButton = Button(16, INPUT_PULLUP); 
-    redButton = Button(25,INPUT_PULLUP);
-    orangeButton = Button(26,INPUT_PULLUP);
- 
+    yellowButton = new Button(16,INPUT); 
+    redButton = new Button(25,INPUT);
+    orangeButton =  new Button(26,INPUT);
+
     Serial.println("Setting up the callbacks!");
-    yellowButton.set_push_callback(counter.callback_incrementCounter,&counter);
-    redButton.set_push_callback(counter.callback_resetCounter,&counter);
-    orangeButton.set_release_callback(refresh);
+    yellowButton->set_push_callback(counter->callback_button3,counter);
+    orangeButton->set_release_callback(counter->callback_button2,counter);
+    redButton->set_push_callback(counter->callback_button1,counter);
 
     Serial.println("Updating the display!");
-    counter.displayRefresh();
+    Serial.println("Counter Refresh: Clearing the buffer");
+    display.clearBuffer();
+    display.begin(THINKINK_MONO);        
+    display.setCursor(10,40);
+    display.setTextSize(6);
+    display.print("LOADING");
+    display.display();
+    //delay(3000);
+    counter->displayRefresh();
     Serial.println("done with setup!");
-
 }
+int i = 3000000;
+int c = i;
 
 void loop() {
-    yellowButton.updateState();
-    redButton.updateState();
-    orangeButton.updateState();
+    yellowButton->updateState();
+    redButton->updateState();
+    orangeButton->updateState();
 }
