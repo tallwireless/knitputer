@@ -12,7 +12,6 @@
 #include "Button.h"
 #include "Display.h"
 
-
 class Counter {
     private:
         int _count;
@@ -28,6 +27,7 @@ class Counter {
         void _toggleState() { _state = !_state; };
         void _incrementGoal_tens();
         void _incrementGoal_ones();
+        String _writeNumber(int number);
         bool _state = false;
 
     public:

@@ -97,7 +97,7 @@ void Counter::_writeCounter(const int x, const int y) {
     _display->print("Count:");              
     _display->setCursor(10+y,40+x);
     _display->setTextSize(6);
-    _display->print(_count);
+    _display->print(_writeNumber(_count));
 }
 void Counter::_writeGoal(const int x, const int y) {
     _display->setTextColor(EPD_BLACK);
@@ -113,7 +113,14 @@ void Counter::_writeGoal(const int x, const int y) {
     }
     _display->setCursor(10+y,40+x);
     _display->setTextSize(6);
-    _display->print(_goal);
+    _display->print(_writeNumber(_goal));
+}
+
+String Counter::_writeNumber(int number){
+    String rv = "";
+    rv += number/10;
+    rv += number%10;
+    return rv;
 }
 
 void  Counter::_counterRefresh() {
