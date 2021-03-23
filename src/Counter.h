@@ -10,7 +10,7 @@
 #define KNITPUTER_COUTER
 
 #include "Button.h"
-#include "Adafruit_ThinkInk.h"
+#include "Display.h"
 
 
 class Counter {
@@ -18,7 +18,7 @@ class Counter {
         int _count;
         int _goal;
 
-        ThinkInk_290_Grayscale4_T5* _display;
+        Display* _display;
         void _writeCounter(const int, const int);
         void _writeGoal(const int, const int);
         void _writeButtonLabels();
@@ -31,7 +31,7 @@ class Counter {
         bool _state = false;
 
     public:
-        Counter(const int startValue, const int goal, ThinkInk_290_Grayscale4_T5* display);
+        Counter(const int startValue, const int goal, Display* display);
         void updateCounter();
         static void callback_button1(void*);
         static void callback_button2(void*);

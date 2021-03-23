@@ -6,13 +6,13 @@
 
 #include "Button.h"
 #include "Counter.h"
-#include "Adafruit_ThinkInk.h"
+#include "Display.h"
 //int _count;
 //int _goal;
 //struct CounterButtons _buttons;
 //void* _display;
 
-Counter::Counter(const int startValue, const int goal, ThinkInk_290_Grayscale4_T5* display) {
+Counter::Counter(const int startValue, const int goal, Display* display) {
     // Let's set some things up!
     _count = startValue;
     _goal = goal;

@@ -10,6 +10,8 @@
 #include "Adafruit_ThinkInk.h"
 #include "Button.h"
 #include "Counter.h"
+#include "StatusLED.h"
+#include "Display.h"
 
 //   --- EPD Display Setup ---
 #define EPD_DC      33  // can be any pin, but required!
@@ -21,7 +23,7 @@
 #define SPI_MOSI  23      /* hardware SPI SID/MOSI pin   */
 #define SPI_MISO  19       /* hardware SPI MISO pin   */
 
-ThinkInk_290_Grayscale4_T5 display(EPD_DC, EPD_RESET, EPD_CS, SRAM_CS, EPD_BUSY);
+Display* display = NULL;
 
 #define COLOR1 EPD_BLACK
 #define COLOR2 EPD_LIGHT
@@ -33,6 +35,7 @@ Button* orangeButton = NULL;
 
 Counter* counter = NULL;
 
+StatusLED* statusled = NULL;
 #define RED_LED 5
 #define BLUE_LED 0
 #define GREEN_LED 17
@@ -46,8 +49,12 @@ void setup() {
     while (!Serial) {
         delay(10);
     }
-    counter = new Counter(0,0,&display);
+    
+    statusled = new StatusLED(5,17,0);
+    display = new Display(statusled, EPD_DC, EPD_RESET, EPD_CS, SRAM_CS, EPD_BUSY);
 
+    counter = new Counter(0,0,display);
+    
     Serial.println("Setting up the buttons!");
     yellowButton = new Button(16,INPUT); 
     redButton = new Button(25,INPUT);
@@ -60,12 +67,12 @@ void setup() {
 
     Serial.println("Updating the display!");
     Serial.println("Counter Refresh: Clearing the buffer");
-    display.clearBuffer();
-    display.begin(THINKINK_MONO);        
-    display.setCursor(10,40);
-    display.setTextSize(6);
-    display.print("LOADING");
-    display.display();
+    display->clearBuffer();
+    display->begin(THINKINK_MONO);        
+    display->setCursor(10,40);
+    display->setTextSize(6);
+    display->print("LOADING");
+    display->display();
     //delay(3000);
     counter->displayRefresh();
     Serial.println("done with setup!");
